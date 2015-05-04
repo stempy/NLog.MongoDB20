@@ -1,8 +1,10 @@
-NLog.MongoDB Target
+NLog.MongoDB20 Target
 =============
-The NLog.MongoDB target allows you to use a MongoDB instance as the persistence mechanism for NLog.
+The NLog.MongoDB20 target allows you to use a MongoDB instance as the persistence mechanism for NLog.
 
 You can define which database and server to use, but by default a collection will be created for each "Logger" you use.
+
+This version targets use by MongoDB.Driver 2.0 API
 
 Installation
 -------------
@@ -15,11 +17,11 @@ To install, place the binaries in your application bin and add the following con
 	<nlog xmlns="http://www.nlog-project.org/schemas/NLog.xsd"
 			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 		<extensions>
-			<add assembly="NLog.MongoDB"/>
+			<add assembly="NLog.MongoDB20"/>
 		</extensions>
 
 		<targets>
-			<target name="Mongo" type="MongoDB" connectionName="ConnectionName" />
+			<target name="Mongo" type="MongoDB20" connectionName="ConnectionName" />
 		</targets>
 		<rules>
 			<logger name="*" minLevel="Info" appendTo="Mongo"/>
@@ -32,11 +34,11 @@ To install, place the binaries in your application bin and add the following con
 	<nlog xmlns="http://www.nlog-project.org/schemas/NLog.xsd"
 			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 		<extensions>
-			<add assembly="NLog.MongoDB"/>
+			<add assembly="NLog.MongoDB20"/>
 		</extensions>
 
 		<targets>
-			<target name="Mongo" type="MongoDB" connectionString="mongodb://mongo:db@server:12345/nlog" />
+			<target name="Mongo" type="MongoDB20" connectionString="mongodb://mongo:db@server:12345/nlog" />
 		</targets>
 		<rules>
 			<logger name="*" minLevel="Info" appendTo="Mongo"/>
@@ -49,11 +51,11 @@ To install, place the binaries in your application bin and add the following con
 	<nlog xmlns="http://www.nlog-project.org/schemas/NLog.xsd"
 			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 		<extensions>
-			<add assembly="NLog.MongoDB"/>
+			<add assembly="NLog.MongoDB20"/>
 		</extensions>
 
 		<targets>
-			<target name="Mongo" type="MongoDB" 
+			<target name="Mongo" type="MongoDB20" 
 				database="nlog"
 				host="server" port="12348"            
 				username="mongo" password="password"/>
@@ -71,11 +73,11 @@ Targets now support custom formatting. If you specify field nodes within the tar
 	<nlog xmlns="http://www.nlog-project.org/schemas/NLog.xsd"
 			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 		<extensions>
-			<add assembly="NLog.MongoDB"/>
+			<add assembly="NLog.MongoDB20"/>
 		</extensions>
 
 		<targets>
-			<target name="Mongo" type="MongoDB" 
+			<target name="Mongo" type="MongoDB20" 
 				database="nlog"
 				host="server" port="12348"            
 				username="mongo" password="password">
