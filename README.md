@@ -6,6 +6,8 @@ You can define which database and server to use, but by default a collection wil
 
 This version targets use by MongoDB.Driver 2.0 API
 
+[![nlog_mongodb20 MyGet Build Status](https://www.myget.org/BuildSource/Badge/nlog_mongodb20?identifier=7a7ba553-1963-424c-810f-db9c8bd092cf)](https://www.myget.org/)
+
 Installation
 -------------
 
