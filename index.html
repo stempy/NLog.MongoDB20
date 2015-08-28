@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Nlog.mongodb20 by cccsdh</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Nlog.mongodb20</h1>
+      <h2 class="project-tagline">An NLog Target for MongoDB.Driver 2.0 persistence.</h2>
+      <a href="https://github.com/cccsdh/NLog.MongoDB20" class="btn">View on GitHub</a>
+      <a href="https://github.com/cccsdh/NLog.MongoDB20/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/cccsdh/NLog.MongoDB20/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="nlogmongodb20-target" class="anchor" href="#nlogmongodb20-target" aria-hidden="true"><span class="octicon octicon-link"></span></a>NLog.MongoDB20 Target</h1>
+
+<p>The NLog.MongoDB20 target allows you to use a MongoDB instance as the persistence mechanism for NLog.</p>
+
+<p>You can define which database and server to use, but by default a collection will be created for each "Logger" you use.</p>
+
+<p>This version targets use by MongoDB.Driver 2.0 API</p>
+
+<p><a href="https://www.myget.org/"><img src="https://www.myget.org/BuildSource/Badge/nlog_mongodb20?identifier=7a7ba553-1963-424c-810f-db9c8bd092cf" alt="nlog_mongodb20 MyGet Build Status"></a></p>
+
+<h2>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h2>
+
+<p>To install, place the binaries in your application bin and add the following configuration entries to your NLog configuration.</p>
+
+<h3>
+<a id="using-an-existing-connection-string" class="anchor" href="#using-an-existing-connection-string" aria-hidden="true"><span class="octicon octicon-link"></span></a>Using an existing connection string</h3>
+
+<pre><code>&lt;?xml version="1.0" encoding="utf-8" ?&gt;
+&lt;nlog xmlns="http://www.nlog-project.org/schemas/NLog.xsd"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;
+    &lt;extensions&gt;
+        &lt;add assembly="NLog.MongoDB20"/&gt;
+    &lt;/extensions&gt;
+
+    &lt;targets&gt;
+        &lt;target name="Mongo" type="MongoDB20" connectionName="ConnectionName" /&gt;
+    &lt;/targets&gt;
+    &lt;rules&gt;
+        &lt;logger name="*" minLevel="Info" appendTo="Mongo"/&gt;
+    &lt;/rules&gt;
+&lt;/nlog&gt;
+</code></pre>
+
+<h3>
+<a id="using-a-new-connection-string" class="anchor" href="#using-a-new-connection-string" aria-hidden="true"><span class="octicon octicon-link"></span></a>Using a new connection string</h3>
+
+<pre><code>&lt;?xml version="1.0" encoding="utf-8" ?&gt;
+&lt;nlog xmlns="http://www.nlog-project.org/schemas/NLog.xsd"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;
+    &lt;extensions&gt;
+        &lt;add assembly="NLog.MongoDB20"/&gt;
+    &lt;/extensions&gt;
+
+    &lt;targets&gt;
+        &lt;target name="Mongo" type="MongoDB20" connectionString="mongodb://mongo:db@server:12345/nlog" /&gt;
+    &lt;/targets&gt;
+    &lt;rules&gt;
+        &lt;logger name="*" minLevel="Info" appendTo="Mongo"/&gt;
+    &lt;/rules&gt;
+&lt;/nlog&gt; 
+</code></pre>
+
+<h3>
+<a id="using-integrated-settings" class="anchor" href="#using-integrated-settings" aria-hidden="true"><span class="octicon octicon-link"></span></a>Using integrated settings</h3>
+
+<pre><code>&lt;?xml version="1.0" encoding="utf-8" ?&gt;
+&lt;nlog xmlns="http://www.nlog-project.org/schemas/NLog.xsd"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;
+    &lt;extensions&gt;
+        &lt;add assembly="NLog.MongoDB20"/&gt;
+    &lt;/extensions&gt;
+
+    &lt;targets&gt;
+        &lt;target name="Mongo" type="MongoDB20" 
+            database="nlog"
+            host="server" port="12348"            
+            username="mongo" password="password"/&gt;
+    &lt;/targets&gt;
+    &lt;rules&gt;
+        &lt;logger name="*" minLevel="Info" appendTo="Mongo"/&gt;
+    &lt;/rules&gt;
+&lt;/nlog&gt;
+</code></pre>
+
+<h3>
+<a id="using-custom-formatting" class="anchor" href="#using-custom-formatting" aria-hidden="true"><span class="octicon octicon-link"></span></a>Using custom formatting</h3>
+
+<p>Targets now support custom formatting. If you specify field nodes within the target node, the target will use your configured settings to store the log event.</p>
+
+<pre><code>&lt;?xml version="1.0" encoding="utf-8" ?&gt;
+&lt;nlog xmlns="http://www.nlog-project.org/schemas/NLog.xsd"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;
+    &lt;extensions&gt;
+        &lt;add assembly="NLog.MongoDB20"/&gt;
+    &lt;/extensions&gt;
+
+    &lt;targets&gt;
+        &lt;target name="Mongo" type="MongoDB20" 
+            database="nlog"
+            host="server" port="12348"            
+            username="mongo" password="password"&gt;
+          &lt;field name="timestamp" layout="${date}" /&gt;
+          &lt;field name="level" layout="${level}" /&gt;
+          &lt;field name="message" layout="${message}" /&gt;
+          &lt;field name="exception" layout="${exception}" /&gt;              
+        &lt;/target&gt;
+    &lt;/targets&gt;
+    &lt;rules&gt;
+        &lt;logger name="*" minLevel="Info" appendTo="Mongo"/&gt;
+    &lt;/rules&gt;
+&lt;/nlog&gt;
+</code></pre>
+
+<h3>
+<a id="target-settings" class="anchor" href="#target-settings" aria-hidden="true"><span class="octicon octicon-link"></span></a>Target Settings:</h3>
+
+<ul>
+<li>Host (Defaults to 'localhost')</li>
+<li>Port (Defaults to 27017)</li>
+<li>Database(Defaults to 'NLog')</li>
+<li>Username</li>
+<li>Password</li>
+</ul>
+
+<p>OR</p>
+
+<ul>
+<li>ConnectionString (a complete Mongo Url)</li>
+</ul>
+
+<p>OR</p>
+
+<ul>
+<li>ConnectionName (the name configured in the configuration/connectionString node)</li>
+</ul>
+
+<p><em>Also (optional)</em></p>
+
+<ul>
+<li>collectionName - the name of the Mongo collection. If you don't specify this, it uses the logger name.</li>
+</ul>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/cccsdh/NLog.MongoDB20">Nlog.mongodb20</a> is maintained by <a href="https://github.com/cccsdh">cccsdh</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
